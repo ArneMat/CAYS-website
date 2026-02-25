@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAYS — The European Capability Integrator</title>
+  <meta name="description" content="CAYS builds sovereign, neutral capability integrators for European defence. One contract. One accountable party. Continuous capability — across domains.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── Marketing page extras ── */
+
+    /* Urgency banner */
+    .urgency-bar {
+      background: linear-gradient(90deg, rgba(20,184,166,.12), rgba(6,182,212,.08), rgba(20,184,166,.12));
+      border-bottom: 1px solid var(--border);
+      padding: .55rem 1rem;
+      text-align: center;
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      color: var(--accent);
+    }
+    .urgency-bar span { color: var(--text-2); font-weight: 400; }
+
+    /* Big stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 3rem 0 0;
+    }
+    .stat-item {
+      background: var(--bg-alt);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      margin-bottom: .3rem;
+    }
+    .stat-lbl { font-size: .8rem; color: var(--text-3); letter-spacing: .04em; text-transform: uppercase; }
+
+    /* Portfolio grid */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    .portfolio-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: border-color .2s, background .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .portfolio-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .portfolio-card:hover { background: var(--surface-2); border-color: var(--border-2); }
+    .portfolio-card:hover::before { opacity: 1; }
+    .portfolio-card.featured { border-color: rgba(20,184,166,.3); }
+    .portfolio-card.featured::before { opacity: 1; }
+    .portfolio-badge {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .2rem .6rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    .badge-active   { background: rgba(20,184,166,.15); color: var(--accent); }
+    .badge-next     { background: rgba(6,182,212,.1);   color: var(--accent-2); }
+    .badge-pipeline { background: rgba(255,255,255,.06); color: var(--text-3); }
+    .portfolio-name   { font-size: 1.5rem; font-weight: 800; margin-bottom: .3rem; }
+    .portfolio-domain { font-size: .8rem; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .75rem; }
+    .portfolio-card p { font-size: .9rem; color: var(--text-2); margin: 0; }
+
+    /* Audience cards */
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .audience-card-big {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      transition: border-color .2s;
+    }
+    .audience-card-big:hover { border-color: var(--border-2); }
+    .audience-tag {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .75rem;
+    }
+    .audience-card-big h3   { font-size: 1.4rem; font-weight: 700; margin-bottom: .75rem; }
+    .audience-card-big .lead { font-size: 1rem; color: var(--text-2); margin-bottom: 1.25rem; }
+    .benefit-list { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .benefit-list li {
+      display: flex; gap: .75rem; align-items: flex-start;
+      font-size: .9rem; color: var(--text-2);
+    }
+    .benefit-list li::before {
+      content: '';
+      width: 16px; height: 16px; min-width: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-radius: 50%;
+      margin-top: 3px;
+      display: block;
+    }
+    .audience-cta {
+      display: inline-flex; align-items: center; gap: .4rem;
+      margin-top: 1.5rem;
+      font-size: .85rem; font-weight: 600;
+      color: var(--accent); text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s;
+    }
+    .audience-cta:hover { border-color: var(--accent); }
+
+    /* Ecosystem names */
+    .ecosystem-section { text-align: center; }
+    .ecosystem-label-row {
+      font-size: .75rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 1.25rem;
+    }
+    .ecosystem-names {
+      display: flex; flex-wrap: wrap;
+      justify-content: center;
+      gap: .75rem 1rem; margin-bottom: 2rem;
+    }
+    .eco-name {
+      font-size: .9rem; font-weight: 600;
+      color: var(--text-2);
+      padding: .4rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      background: var(--surface);
+      letter-spacing: .02em;
+    }
+
+    /* How it works steps */
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 2.5rem;
+    }
+    .step { background: var(--bg-alt); padding: 2.25rem 1.75rem; }
+    .step-num {
+      font-size: 3rem; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: .75rem;
+    }
+    .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
+    .step p  { font-size: .9rem; color: var(--text-2); margin: 0; }
+
+    /* Finance cards */
+    .finance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem; margin-top: 2.5rem;
+    }
+    .finance-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+    .finance-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(20,184,166,.2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+    .finance-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
+    .finance-card p  { font-size: .9rem; color: var(--text-2); margin: 0; }
+
+    /* Mission pull quote */
+    .mission-block {
+      background: linear-gradient(135deg, rgba(20,184,166,.07), rgba(6,182,212,.04));
+      border: 1px solid rgba(20,184,166,.2);
+      border-radius: var(--radius-lg);
+      padding: 3rem; text-align: center; margin-top: 3rem;
+    }
+    .mission-block blockquote {
+      font-size: 1.35rem; font-weight: 600; line-height: 1.55;
+      color: var(--text);
+      max-width: 780px; margin: 0 auto 1rem;
+    }
+    .mission-block cite { font-size: .85rem; color: var(--text-3); font-style: normal; }
+
+    /* About strip */
+    .about-strip {
+      display: flex; gap: 3rem; align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 3rem; margin-top: 2.5rem;
+    }
+    .about-strip-text { flex: 1; }
+    .about-strip-text h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: .5rem; }
+    .about-strip-text p  { font-size: .9rem; color: var(--text-2); margin: 0; }
+    .about-strip-logo {
+      flex-shrink: 0;
+      font-size: 1.4rem; font-weight: 800;
+      color: var(--accent); letter-spacing: -.01em;
+    }
+
+    /* Hero tag badges */
+    .hero-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.75rem; }
+    .hero-tag {
+      font-size: .75rem; font-weight: 600;
+      padding: .3rem .8rem; border-radius: 20px;
+      border: 1px solid var(--border-2);
+      color: var(--text-3); letter-spacing: .04em;
+    }
+
+    /* Section eyebrow with line */
+    .section-eyebrow { display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem; }
+    .section-eyebrow .section-label { margin-bottom: 0; }
+    .eyebrow-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* Capability Fund highlight */
+    .fund-highlight {
+      background: linear-gradient(135deg, rgba(245,158,11,.06), rgba(20,184,166,.04));
+      border: 1px solid rgba(245,158,11,.2);
+      border-radius: var(--radius);
+      padding: 1.5rem 2rem; margin-top: 2rem;
+    }
+    .fund-highlight h4 { color: var(--warm); margin-bottom: .4rem; font-size: 1rem; }
+    .fund-highlight p  { font-size: .9rem; color: var(--text-2); margin: 0; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .stats-row      { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-grid { grid-template-columns: 1fr 1fr; }
+      .audience-grid  { grid-template-columns: 1fr; }
+      .steps-row      { grid-template-columns: 1fr; }
+      .finance-grid   { grid-template-columns: 1fr 1fr; }
+      .about-strip    { flex-direction: column; gap: 1.25rem; padding: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .finance-grid   { grid-template-columns: 1fr; }
+      .mission-block  { padding: 2rem 1.25rem; }
+      .mission-block blockquote { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== URGENCY BAR ===== -->
+  <div class="urgency-bar">
+    Europe needs a sovereign defence integration layer — now.&nbsp;
+    <span>CAYS is building it, one domain at a time.</span>
+  </div>
+
+  <!-- ===== NAV ===== -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="assets/cays-logo-dark.png" alt="CAYS" class="nav-logo-img">
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#solution">Solution</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#for-governments">Governments</a>
+        <a href="#for-industry">Industry</a>
+        <a href="#for-finance">Investors</a>
+        <a href="#contact" class="nav-cta">Get Involved</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="hero-grid-bg"></div>
+    <div class="container hero-content">
+      <div class="hero-badge">capabilityintegrator.eu &nbsp;·&nbsp; Winsemius Group</div>
+      <h1>Europe's sovereign<br>capability integration<br>infrastructure<span class="accent">.</span></h1>
+      <p class="hero-sub">One contract. One accountable party. Continuous capability — sovereign by design.</p>
+      <p class="hero-body">CAYS builds domain-specific Capability Integrators: neutral, publicly anchored entities that let European governments lawfully contract a single organisation for end-to-end defence capability integration — while the best of European industry collaborates behind a legal firewall.</p>
+
+      <div class="hero-badges">
+        <span class="hero-tag">ISR &amp; Drone Systems</span>
+        <span class="hero-tag">Underwater &amp; Maritime</span>
+        <span class="hero-tag">Ground ISR</span>
+        <span class="hero-tag">Cross-domain</span>
+        <span class="hero-tag">EU-Law Compliant</span>
+        <span class="hero-tag">Sovereign by Design</span>
+        <span class="hero-tag">Open to SMEs</span>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item">
+          <div class="stat-num">1</div>
+          <div class="stat-lbl">Contract to sign</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">5+</div>
+          <div class="stat-lbl">Capability domains</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100%</div>
+          <div class="stat-lbl">EU-law compliant</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">0</div>
+          <div class="stat-lbl">Foreign lock-in</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== THE PROBLEM ===== -->
+  <section class="section" id="problem">
+    <div class="container">
+      <div class="section-label">The Problem</div>
+      <h2>European defence acquisition<br>is structurally broken<span class="accent">.</span></h2>
+      <p class="section-intro">EU procurement law, fragmented industry, and slow acquisition cycles are creating a widening gap between the capabilities Europe needs and the capabilities it can actually deliver.</p>
+
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="problem-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>Procurement takes years</h3>
+          <p>Threats evolve in weeks. Procurement cycles run in years. By the time a system is delivered, the mission has changed.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3>No integration authority</h3>
+          <p>Nobody is responsible for end-to-end integration. MoDs manage dozens of contracts themselves — and carry all the risk.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3>Sovereignty at risk</h3>
+          <p>Critical ISR data paths run through foreign-owned primes. Intelligence decisions depend on architectures Europe does not control.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" y1="11" x2="23" y2="11"/></svg>
+          </div>
+          <h3>SMEs are locked out</h3>
+          <p>Europe's best defence innovators — small, fast, sovereign — cannot get inside the system without a prime contractor as gatekeeper.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3>Duplicated spending</h3>
+          <p>Nations build the same capabilities in parallel. No shared architecture, no shared testing, no shared standards — just duplicated costs.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Incompatible systems</h3>
+          <p>Every programme uses different architectures, interfaces, and standards. Products from different vendors simply do not work together.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SOLUTION ===== -->
+  <section class="section section-alt" id="solution">
+    <div class="container">
+      <div class="section-label">The Solution</div>
+      <h2>One neutral entity.<br>Full integration. Full sovereignty<span class="accent">.</span></h2>
+
+      <div class="solution-layout">
+        <div class="solution-text">
+          <p class="lead">A CAYS Capability Integrator (CI) is a neutral, publicly anchored, industry-empowered organisation built for a specific capability domain. It is the single point of responsibility for end-to-end integration, architecture governance, testing, certification, and lifecycle services — contracted by governments, operated continuously, built with the best of European industry.</p>
+
+          <div class="solution-principles">
+            <div class="principle">
+              <div class="principle-marker"></div>
+              <div>
+                <h4>One contract for governments</h4>
+                <p>Sign once. The CI handles integration, subcontracting, testing, certification, and lifecycle. Your programme office stops managing vendors — and starts managing outcomes.</p>
+              </div>
+            </div>
+            <div class="principle">
+              <div class="principle-marker"></div>
+              <div>
+                <h4>Neutral for industry</h4>
+                <p>No single company dominates. Airbus and a 10-person AI startup compete on equal terms, against the same architecture, through the same open process.</p>
+              </div>
+            </div>
+            <div class="principle">
+              <div class="principle-marker"></div>
+              <div>
+                <h4>Sovereign by design</h4>
+                <p>Mission data, reference architecture, and integration authority remain under public control. Foreign lock-in is structurally impossible.</p>
+              </div>
+            </div>
+            <div class="principle">
+              <div class="principle-marker"></div>
+              <div>
+                <h4>Legally defensible</h4>
+                <p>Fully compliant with EU Directive 2009/81/EC, Article 346 TFEU, and national procurement law. No legal shortcuts — just a smarter structure.</p>
+              </div>
+            </div>
+            <div class="principle">
+              <div class="principle-marker"></div>
+              <div>
+                <h4>Continuously evolving</h4>
+                <p>Capability development runs on a continuous cadence — quarterly strategy, 10-week delivery increments, fortnightly architecture governance. No start-stop procurement cycles.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="solution-card-stack">
+          <div class="what-card">
+            <h3>What the CI does</h3>
+            <ul>
+              <li>Acts as sovereign architecture authority</li>
+              <li>Performs end-to-end capability integration</li>
+              <li>Runs testing, validation &amp; certification</li>
+              <li>Provides full lifecycle services</li>
+              <li>Orchestrates the industrial ecosystem</li>
+              <li>Operates the innovation &amp; funding pipeline</li>
+              <li>Manages IP, data, and security governance</li>
+            </ul>
+          </div>
+          <div class="what-card what-card-not">
+            <h3>What the CI is not</h3>
+            <ul>
+              <li>Not a classic prime contractor</li>
+              <li>Not a procurement agency</li>
+              <li>Not a competitor to industry</li>
+              <li>Not a foreign-controlled entity</li>
+              <li>Not a bureaucratic EU agency</li>
+              <li>Not a replacement for R&amp;D programmes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="mission-block">
+        <blockquote>&ldquo;A sovereign capability integrator is the only construct that lets European governments buy speed, security, and multi-vendor excellence — without compromising constitutional safeguards.&rdquo;</blockquote>
+        <cite>CAYS CI Handbook &mdash; Winsemius Group, January 2026</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="section-label">How It Works</div>
+      <h2>Simple for governments.<br>Powerful underneath<span class="accent">.</span></h2>
+      <p class="section-intro">Three layers. One operating model. Applied to any capability domain.</p>
+
+      <div class="steps-row">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Government signs the Master Contract</h3>
+          <p>A long-term sovereign agreement with the CI cooperative. One counterparty. Clear outcomes. Sovereignty clauses, architecture obligations, and test gates locked in upfront.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>The CI integrates the ecosystem</h3>
+          <p>Using the CAYS Reference Architecture, the CI runs open mini-competitions among certified industry partners — primes, SMEs, and startups — and integrates, tests, and certifies every capability block.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Capability delivered continuously</h3>
+          <p>Annual tasking orders keep the programme moving. Every 10–12 weeks a new capability increment ships. Governments receive proven capability — not promises — on a repeating cadence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PORTFOLIO ===== -->
+  <section class="section section-alt" id="portfolio">
+    <div class="container">
+      <div class="section-label">The Portfolio</div>
+      <h2>Five domains.<br>One shared backbone<span class="accent">.</span></h2>
+      <p class="section-intro">Each CAYS CI is purpose-built for its domain — but shares the same legal structure, operating model, and governance architecture. Build once. Scale across Europe.</p>
+
+      <div class="portfolio-grid">
+        <div class="portfolio-card featured">
+          <span class="portfolio-badge badge-active">Active pilot</span>
+          <div class="portfolio-name">GYPS</div>
+          <div class="portfolio-domain">Drone ISR &amp; Aerial Surveillance</div>
+          <p>The first CAYS CI. Integrates ISR sensor platforms, AI-powered PED chains, ground control systems, and multi-domain data fusion. The pilot that proves the model works.</p>
+        </div>
+        <div class="portfolio-card">
+          <span class="portfolio-badge badge-next">Next in development</span>
+          <div class="portfolio-name">RAIA</div>
+          <div class="portfolio-domain">Underwater Systems</div>
+          <p>Sovereign capability integration for the underwater domain: AUVs, seabed sensors, anti-submarine warfare, and underwater communications — fully integrated, continuously maintained.</p>
+        </div>
+        <div class="portfolio-card">
+          <span class="portfolio-badge badge-next">Next in development</span>
+          <div class="portfolio-name">LYNX</div>
+          <div class="portfolio-domain">Ground ISR &amp; Reconnaissance</div>
+          <p>Ground-based ISR integration: mobile sensor platforms, unattended ground sensors, ground radar, EW support, and tactical edge processing — sovereign, neutral, continuously upgraded.</p>
+        </div>
+        <div class="portfolio-card">
+          <span class="portfolio-badge badge-pipeline">Pipeline</span>
+          <div class="portfolio-name">MAKO</div>
+          <div class="portfolio-domain">Maritime Surface Systems</div>
+          <p>End-to-end maritime surface capability integration: vessel sensor suites, C2 systems, maritime patrol, and coastal surveillance — built with European industry for European sovereignty.</p>
+        </div>
+        <div class="portfolio-card">
+          <span class="portfolio-badge badge-pipeline">Pipeline</span>
+          <div class="portfolio-name">OCTI</div>
+          <div class="portfolio-domain">Cross-Domain Integration</div>
+          <p>The connective tissue between domains: multi-domain data fusion, joint operational picture, cross-platform interoperability, and combined command support across all CIs.</p>
+        </div>
+        <div class="portfolio-card" style="display:flex;align-items:center;justify-content:center;text-align:center;min-height:160px;">
+          <div>
+            <div style="font-size:.8rem;color:var(--text-3);margin-bottom:.5rem;letter-spacing:.06em;text-transform:uppercase;">More domains being scoped</div>
+            <div style="font-size:.95rem;color:var(--text-2);">Space, C2, Electronic Warfare, Logistics — the CAYS model is domain-agnostic.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOR GOVERNMENTS ===== -->
+  <section class="section" id="for-governments">
+    <div class="container">
+      <div class="section-eyebrow">
+        <div class="section-label">For Governments</div>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2>Stop managing vendors.<br>Start contracting outcomes<span class="accent">.</span></h2>
+      <p class="section-intro">Ministries of Defence, defence materiel organisations, and security authorities contract the CAYS CI directly. One agreement. One accountable party. Full sovereign control — without the procurement burden.</p>
+
+      <div class="audience-grid">
+        <div class="audience-card-big">
+          <div class="audience-tag">What you get</div>
+          <h3>Sovereign capability, delivered at speed</h3>
+          <p class="lead">Trade dozens of vendor contracts for one sovereign partnership — while keeping full control over architecture, data, and mission priorities.</p>
+          <ul class="benefit-list">
+            <li>One Master Enterprise Contract replaces dozens of individual procurements</li>
+            <li>Annual tasking orders keep funding flexible and outcomes measurable</li>
+            <li>Architecture, data, and mission intelligence stay under national control</li>
+            <li>Capability increments delivered every 10–12 weeks — not every 3 years</li>
+            <li>Multi-MoD frameworks available: share infrastructure, reduce duplication</li>
+            <li>Fully compliant with EU Directive 2009/81/EC and Article 346 TFEU</li>
+          </ul>
+          <a href="#contact" class="audience-cta">Talk to us about your programme &rarr;</a>
+        </div>
+        <div class="audience-card-big">
+          <div class="audience-tag">Sovereignty guaranteed</div>
+          <h3>Your data. Your architecture. Your control.</h3>
+          <p class="lead">Sovereignty is not a feature — it is the structural foundation of every CAYS CI. Every governance, data, and IP layer is designed to guarantee it.</p>
+          <ul class="benefit-list">
+            <li>Reference architecture owned and controlled by the CI cooperative — not a prime</li>
+            <li>Mission data belongs to the MoD; CI processes as a sovereign service</li>
+            <li>Classified data never leaves national domains</li>
+            <li>STAK governance prevents foreign control or dominance by any single actor</li>
+            <li>Public certificate holders have direct influence on governance direction</li>
+            <li>Security Floor ensures NIS2, CRA, ISO 27001, and facility accreditation compliance</li>
+          </ul>
+          <a href="#contact" class="audience-cta">Request a governance briefing &rarr;</a>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <blockquote>&ldquo;MoDs contract ONE ENTITY — the CI — which organises and integrates all industrial actors behind it. One contract, many contributors.&rdquo;</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOR INDUSTRY ===== -->
+  <section class="section section-alt" id="for-industry">
+    <div class="container">
+      <div class="section-eyebrow">
+        <div class="section-label">For Industry</div>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2>The neutral field where<br>the best technology wins<span class="accent">.</span></h2>
+      <p class="section-intro">CAYS CIs are not prime contractors — they are neutral industrial ecosystems. Whether you are a European prime or a 10-person AI startup, you compete on architecture compliance and capability, not political access.</p>
+
+      <div class="audience-grid">
+        <div class="audience-card-big">
+          <div class="audience-tag">Prime-level integrators</div>
+          <h3>Participate without dominating</h3>
+          <p class="lead">Major defence companies — Airbus, Thales, Leonardo, Indra, Rheinmetall, Saab — bring subsystems, integration expertise, and platform delivery without taking the integrator seat.</p>
+          <ul class="benefit-list">
+            <li>Deliver major subsystems and platforms through open, competitive work orders</li>
+            <li>Participate in architecture development through the Architecture Authority Board</li>
+            <li>No single prime can lock the architecture or dominate the ecosystem</li>
+            <li>Co-invest in R&amp;D, new products, and M&amp;A through the Capability Fund</li>
+            <li>Access to a growing multi-MoD customer base across European nations</li>
+          </ul>
+          <a href="#contact" class="audience-cta">Explore ecosystem membership &rarr;</a>
+        </div>
+        <div class="audience-card-big">
+          <div class="audience-tag">Mid-tier, SMEs &amp; specialists</div>
+          <h3>Niche excellence, fairly rewarded</h3>
+          <p class="lead">The best sensor, the best AI model, the best ground station — the CI's reference architecture guarantees your access to work orders. No gatekeeper. No political access required.</p>
+          <ul class="benefit-list">
+            <li>Standards-based architecture gives every certified supplier guaranteed module access</li>
+            <li>Win work based on technical compliance and capability — not size</li>
+            <li>Access to CAYS testing, certification, and integration infrastructure</li>
+            <li>Transparent mini-competitions with clear, published acceptance criteria</li>
+            <li>Innovation Pipeline provides a fast track for new technologies into service</li>
+          </ul>
+          <a href="#contact" class="audience-cta">Apply for certification &rarr;</a>
+        </div>
+      </div>
+
+      <div class="collab-block">
+        <h3>Industrial collaboration without procurement constraints</h3>
+        <p>Inside a CAYS CI, industrial and financial partners can collaborate freely — joint R&amp;D, new product co-development, M&amp;A, and innovation partnerships — without any public party involvement. The CI's cooperative structure, IP framework, and Finance Floor are specifically designed to make this possible, legally and practically.</p>
+        <div class="collab-types">
+          <span>Pre-competitive R&amp;D</span>
+          <span>Joint ventures</span>
+          <span>M&amp;A consolidation</span>
+          <span>Technology brokering</span>
+          <span>CI Innovation Funds</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOR SMEs ===== -->
+  <section class="section" id="for-smes">
+    <div class="container">
+      <div class="section-eyebrow">
+        <div class="section-label">For SMEs &amp; Startups</div>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2>Your pathway into<br>European defence<span class="accent">.</span></h2>
+      <p class="section-intro">Europe's best defence innovations come from small, fast companies. CAYS is the first structure that gives them a genuine, standards-based pathway into MoD programmes — no prime gatekeeper required.</p>
+
+      <div class="industry-roles">
+        <div class="role-card">
+          <h3>Open architecture access</h3>
+          <p>The CAYS Reference Architecture defines every interface and module boundary. If your product is certified, it plugs in — regardless of company size.</p>
+          <div class="role-examples">Standards-based &middot; Module-level access &middot; No exclusivity</div>
+        </div>
+        <div class="role-card">
+          <h3>Sandboxing &amp; rapid prototyping</h3>
+          <p>Test your technology in a real defence integration environment. The Innovation &amp; Broker Floor provides testing, sandboxing, and demonstration infrastructure — fast lane trials, no bureaucracy.</p>
+          <div class="role-examples">Fast lane trials &middot; Rapid prototyping &middot; Integration labs</div>
+        </div>
+        <div class="role-card">
+          <h3>Technology brokers connect the dots</h3>
+          <p>CAYS technology brokers actively scout innovative companies, match them with capability gaps, and facilitate onboarding — without the overhead of traditional defence entry routes.</p>
+          <div class="role-examples">Active scouting &middot; Teaming support &middot; Dual-use pathways</div>
+        </div>
+        <div class="role-card">
+          <h3>Innovation funding available</h3>
+          <p>The CI Capability Fund can finance promising SME technologies, bridge R&amp;D gaps, and support scale-up aligned with active defence programme roadmaps.</p>
+          <div class="role-examples">CI Innovation Fund &middot; Supply chain scaling &middot; R&amp;D bridging</div>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <blockquote>&ldquo;Neutral participation rules mean Airbus, a 20-person AI startup, and a specialist sensor broker can all stand on the same architecture floor — without tripping procurement alarms.&rdquo;</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOR FINANCERS ===== -->
+  <section class="section section-alt" id="for-finance">
+    <div class="container">
+      <div class="section-eyebrow">
+        <div class="section-label">For Investors &amp; Financers</div>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2>Invest in the infrastructure<br>layer of European defence<span class="accent">.</span></h2>
+      <p class="section-intro">European defence spending is accelerating. CAYS is building the integration infrastructure that makes that spending effective — and that represents a structural, long-term investment opportunity.</p>
+
+      <div class="finance-grid">
+        <div class="finance-card">
+          <div class="finance-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3>Ecosystem Consolidation</h3>
+          <p>Fund strategic consolidation across the CAYS industrial ecosystem. Targeted M&amp;A, joint ventures, and supply chain integration aligned with sovereign capability roadmaps.</p>
+        </div>
+        <div class="finance-card">
+          <div class="finance-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <h3>New Product Creation</h3>
+          <p>Finance new capability modules, dual-use technologies, and innovation sprints. Turn promising prototypes into certified, deployable European defence products.</p>
+        </div>
+        <div class="finance-card">
+          <div class="finance-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <h3>Contract Pre-financing</h3>
+          <p>Pre-finance anticipated government contracts — enabling the CI and its ecosystem to begin preparation and scaling before formal award, capturing first-mover advantage.</p>
+        </div>
+      </div>
+
+      <div class="fund-highlight">
+        <h4>The CAYS Capability Fund</h4>
+        <p>Private investors join the CI ecosystem through the Capability Fund — a dedicated vehicle for defence-aligned industrial investment. The Fund provides capital continuity independent of government contract cycles, while long-term government frameworks and the CI's sovereign architecture underpin the risk model. Eligible instruments include equity, debt, and blended finance aligned with EU and national development bank programmes — EDF, CIC, EBF, national innovation funds, and the EIB group.</p>
+      </div>
+
+      <div class="audience-grid" style="margin-top:1.5rem;">
+        <div class="audience-card-big">
+          <div class="audience-tag">Why the risk profile is different</div>
+          <h3>Government-anchored, commercially structured</h3>
+          <p class="lead">CAYS CIs are not defence startups. They are sovereign public-private partnerships with MoD participation, long-term framework contracts, and diversified revenue streams.</p>
+          <ul class="benefit-list">
+            <li>Long-term Master Enterprise Contracts provide multi-year revenue visibility</li>
+            <li>Multi-MoD participation model diversifies customer concentration risk</li>
+            <li>EU programme eligibility (EDF, CIC) unlocks additional non-dilutive funding</li>
+            <li>Industrial ecosystem fees and marketplace revenue supplement government contracts</li>
+            <li>STAK governance protects investor position from political interference</li>
+          </ul>
+        </div>
+        <div class="audience-card-big">
+          <div class="audience-tag">Who is engaged</div>
+          <h3>A growing circle of aligned partners</h3>
+          <p class="lead">CAYS is being developed with governmental, industrial, and financial stakeholders across Europe who recognise the structural opportunity.</p>
+          <ul class="benefit-list">
+            <li>National development banks and defence innovation funds</li>
+            <li>Private equity and growth capital aligned with European sovereignty</li>
+            <li>EU financial instruments including the EIB group</li>
+            <li>Industrial co-investors from the CAYS ecosystem</li>
+            <li>Winsemius Group as independent architect and initiating party</li>
+          </ul>
+          <a href="#contact" class="audience-cta">Request an investor briefing &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ECOSYSTEM ===== -->
+  <section class="section" id="ecosystem">
+    <div class="container ecosystem-section">
+      <div class="section-label">The Ecosystem</div>
+      <h2>Built with the best<br>of European industry<span class="accent">.</span></h2>
+      <p class="section-intro" style="max-width:640px;margin:0 auto 2.5rem;">CAYS CIs are designed to work with the full breadth of European defence industry — from the largest primes to specialist SMEs, research institutes, and technology innovators.</p>
+
+      <div class="ecosystem-label-row">Prime-level integrators &amp; platform providers</div>
+      <div class="ecosystem-names">
+        <span class="eco-name">Airbus Defence &amp; Space</span>
+        <span class="eco-name">Thales Group</span>
+        <span class="eco-name">Leonardo</span>
+        <span class="eco-name">Indra</span>
+        <span class="eco-name">Rheinmetall</span>
+        <span class="eco-name">Saab</span>
+      </div>
+
+      <div class="ecosystem-label-row">ISR platforms, sensors &amp; payloads</div>
+      <div class="ecosystem-names">
+        <span class="eco-name">DeltaQuad</span>
+        <span class="eco-name">Nedinsco</span>
+        <span class="eco-name">SDR specialists</span>
+        <span class="eco-name">Hyperspectral imaging firms</span>
+        <span class="eco-name">Maritime sensor providers</span>
+        <span class="eco-name">AI/ML analytics companies</span>
+      </div>
+
+      <div class="ecosystem-label-row">Research, test &amp; innovation</div>
+      <div class="ecosystem-names">
+        <span class="eco-name">Universities &amp; polytechnics</span>
+        <span class="eco-name">National research institutes</span>
+        <span class="eco-name">Defence T&amp;E centres</span>
+        <span class="eco-name">Dual-use technology brokers</span>
+      </div>
+
+      <div class="ecosystem-label-row">Financial &amp; institutional partners</div>
+      <div class="ecosystem-names">
+        <span class="eco-name">European Defence Fund (EDF)</span>
+        <span class="eco-name">EIB Group</span>
+        <span class="eco-name">National development banks</span>
+        <span class="eco-name">Defence innovation funds</span>
+        <span class="eco-name">Private equity</span>
+        <span class="eco-name">EU CIC / EBF programmes</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GOVERNANCE ===== -->
+  <section class="section section-alt" id="governance">
+    <div class="container">
+      <div class="section-label">Governance</div>
+      <h2>Cooperative PPP + STAK<span class="accent">.</span></h2>
+      <p class="section-intro">The most robust and legally defensible governance model for multi-party capability integration. Public party has influence on governance and ensures sovereignty. The guardians of the mission (STAK-board) assure the direction. Industry participates through the cooperative with economic rights but no dominance.</p>
+
+      <div class="structure-grid">
+        <div class="structure-card structure-card-accent">
+          <div class="structure-icon">Co&ouml;p</div>
+          <h3>Cooperative</h3>
+          <p>Multiple companies and public actors, no single dominant party. Flexible for new members and exits. Explicitly accepted for multi-party service providers under EU law.</p>
+        </div>
+        <div class="structure-card structure-card-accent">
+          <div class="structure-icon">STAK</div>
+          <h3>Trust Foundation</h3>
+          <p>Holds voting shares. Prevents foreign control and industrial dominance. Separates economic rights from governance rights. Ensures mission continuity and long-term stability.</p>
+        </div>
+        <div class="structure-card structure-card-accent">
+          <div class="structure-icon">PPP</div>
+          <h3>Public-Private Partnership</h3>
+          <p>Provides legitimacy for Article 346 TFEU. Gives MoDs direct governance influence without full ownership. Creates the legal basis for contracting one sovereign entity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-label">About</div>
+      <h2>Designed by Winsemius Group<span class="accent">.</span></h2>
+      <p class="section-intro">CAYS is developed and initiated by Winsemius Group — an independent intermediary in European defence innovation. Not a prime. Not a lobbyist. An architect for structures that make Europe's defence ecosystem work better.</p>
+
+      <div class="about-strip">
+        <div class="about-strip-logo">Winsemius<br>Group</div>
+        <div class="about-strip-text">
+          <h3>Independent intermediary in defence innovation</h3>
+          <p>Winsemius Group operates at the intersection of government, industry, and finance in European defence. The group designs governance structures, builds ecosystems, and initiates organisations that solve structural problems in capability acquisition — with no commercial interest in any single industrial outcome other than making the system work for Europe.</p>
+        </div>
+      </div>
+
+      <div class="mission-block" style="margin-top:2rem;">
+        <blockquote>&ldquo;If the CI construct works for ISR, it can be replicated across every operational domain with the same legal and governance backbone. CAYS is not a single product — it is the infrastructure for European capability integration.&rdquo;</blockquote>
+        <cite>CAYS CI Handbook &mdash; Winsemius Group</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="section section-alt" id="contact">
+    <div class="container contact-container">
+      <div class="section-label">Get Involved</div>
+      <h2>Join the ecosystem<span class="accent">.</span></h2>
+      <p class="section-intro">Whether you represent a Ministry of Defence, a prime contractor, an SME, a research institution, or a financial partner — there is a role for you in the CAYS CI ecosystem. Reach out to start the conversation.</p>
+
+      <div class="contact-cards">
+        <div class="contact-card">
+          <h3>For Governments &amp; MoDs</h3>
+          <p>Explore how a CAYS CI reduces your acquisition burden while maintaining sovereign control over capability and mission data. We offer briefings, workshops, and feasibility engagements.</p>
+        </div>
+        <div class="contact-card">
+          <h3>For Industry Partners</h3>
+          <p>Join a neutral, open ecosystem with standardised architecture, equal access, and guaranteed module-level participation. Apply for certification or explore co-investment opportunities.</p>
+        </div>
+        <div class="contact-card">
+          <h3>For SMEs &amp; Startups</h3>
+          <p>A low-barrier, standards-based pathway into government capability programmes — with testing infrastructure, technology brokering, and innovation funding to support your journey in.</p>
+        </div>
+        <div class="contact-card">
+          <h3>For Investors &amp; Financers</h3>
+          <p>Invest in Europe's sovereign defence integration infrastructure through the CAYS Capability Fund or direct CI participation. Long-term frameworks, government-anchored revenue, structural strategic relevance.</p>
+        </div>
+      </div>
+
+      <div class="contact-info">
+        <div class="contact-detail">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+          <a href="mailto:info@capabilityintegrator.eu">info@capabilityintegrator.eu</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">
+        <img src="assets/cays-logo-dark.png" alt="CAYS" class="footer-logo-img">
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> CAYS &mdash; A Winsemius Group initiative &nbsp;&middot;&nbsp; capabilityintegrator.eu &nbsp;&middot;&nbsp; capabilityintegration.eu</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      links.classList.toggle('open');
+      toggle.classList.toggle('open');
+    });
+    links.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+      });
+    });
+
+    const nav = document.getElementById('nav');
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) {
+          e.preventDefault();
+          window.scrollTo({ top: t.offsetTop - nav.offsetHeight, behavior: 'smooth' });
+        }
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.section').forEach(s => observer.observe(s));
+  </script>
+
+</body>
+</html>
